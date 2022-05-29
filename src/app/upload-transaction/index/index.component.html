@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <h3>Transaction History</h3>
+    <div class="row col-12">
+      <div class="col-8">
+
+        <span>Start Date : </span>
+        <input matInput [matDatepicker]="picker1" (dateInput)="addEvent1('input', $event)" (dateChange)="addEvent1('change', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 ></mat-datepicker>
+
+        <span>End Date : </span>
+        <input matInput [matDatepicker]="picker2" (dateInput)="addEvent2('input', $event)" (dateChange)="addEvent2('change', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 ></mat-datepicker>
+        
+        <div class="row">
+          <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Currency</mat-label>
+            <mat-select (selectionChange)="changeCurrency($event.value)">
+              <mat-option *ngFor="let curr of currency" [value]="curr.viewValue">
+                {{curr.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Status</mat-label>
+              <mat-select (selectionChange)="changeStatus($event.value)">
+                <mat-option *ngFor="let sts of status" [value]="sts.viewValue">
+                  {{sts.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div div class="col-4">
+            <button mat-raised-button color="primary" (click)="onFilter()">
+            Search<i class="material-icons">search</i>
+          </button>
+          </div>
+        </div>
+        
+      </div>
+      <div class="col-4">
+        <div class="example-container input-group">
+          <input type="file" class="custom-file-input" accept=".xml,.csv" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01" (change)="onChange($event)">
+          <div *ngIf="showErr" style="color: red">{{errMessage}}</div>
+          <button color="primary" (click)="onUpload()" [disabled]="!validFile">Upload</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-12">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="TransactionID">
+        <th mat-header-cell *matHeaderCellDef> TransactionID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Payment">
+        <th mat-header-cell *matHeaderCellDef> Payment </th>
+        <td mat-cell *matCellDef="let element"> {{element.payment}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    </div>
+<!-- 
+    
+    <table class="table table-bordered" style="margin-top: 10px;">
+      <tr>
+        <th>Transaction ID</th>
+        <th>Payment</th>
+        <th>Status</th>
+      </tr>
+      <tr *ngFor="let txn of transactions">
+        <td>{{ txn.id }}</td>
+        <td>{{ txn.payment }}</td>
+        <td>{{ txn.Status }}</td>
+      </tr>
+    </table> -->
+ </div>
